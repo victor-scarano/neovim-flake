@@ -1,5 +1,9 @@
 # TODO: create a home manager module? (neovim.enable = true) (vimAlias = true)
 # TODO: set binary as user's defualt editor ($EDITOR)
+# TODO: configure yazi nvim or oil nvim or both
+# TODO: configure renaming/refactoring symbols
+# TODO: make use of new completion functionality (https://youtube.com/watch?v=ZiH59zg59kg)
+# TODO: configure which key nvim
 {
     description = "My Neovim Flake";
 
