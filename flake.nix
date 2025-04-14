@@ -1,9 +1,5 @@
 # TODO: create a home manager module? (neovim.enable = true) (vimAlias = true)
 # TODO: set binary as user's defualt editor ($EDITOR)
-# TODO: configure yazi nvim or oil nvim or both
-# TODO: configure renaming/refactoring symbols
-# TODO: make use of new completion functionality (https://youtube.com/watch?v=ZiH59zg59kg)
-# TODO: configure which key nvim
 {
     description = "My Neovim Flake";
 
@@ -33,6 +29,7 @@
 				nvim-web-devicons
 				telescope-nvim
 				vscode-nvim
+				yazi-nvim
 			];
 			runtime = with pkgs; [
 				clang-tools
@@ -43,6 +40,7 @@
 				rust-analyzer
 				taplo
 				vscode-langservers-extracted
+				yazi
 				zls
 			];
 			config = pkgs.neovimUtils.makeNeovimConfig {
