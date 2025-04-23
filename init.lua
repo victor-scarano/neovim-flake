@@ -128,7 +128,9 @@ do -- telescope
 		},
 	})
 	--]]
-	require("telescope").setup({})
+	require("telescope").setup({
+		defaults = { border = false } -- temp fix (https://github.com/nvim-telescope/telescope.nvim/issues/3436)
+	})
 end
 
 do -- lualine
