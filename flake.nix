@@ -25,6 +25,15 @@
 				nvim-tree-lua
 				nvim-treesitter
 				nvim-treesitter-context
+				nvim-treesitter-parsers.zig
+				nvim-treesitter-parsers.rust
+				nvim-treesitter-parsers.markdown
+				nvim-treesitter-parsers.markdown_inline
+				nvim-treesitter-parsers.toml
+				nvim-treesitter-parsers.nix
+				nvim-treesitter-parsers.lua
+				nvim-treesitter-parsers.python
+				# other treesitter parsers: yaml, xml, wgsl, vimdoc, vim, tmux, sway, sql, ron, regex, latex, json, javascript, javadoc, java, html, go, css, c, asm, typst
 				nvim-ufo
 				nvim-web-devicons
 				telescope-nvim
