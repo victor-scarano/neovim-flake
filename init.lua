@@ -103,11 +103,9 @@ do -- treesitter
 	-- is there any way to use nixpkgs instead?
 	vim.opt.runtimepath:prepend(vim.fs.joinpath(vim.fn.stdpath("data"), "site"))
 	require("nvim-treesitter.configs").setup({
-		auto_install = true,
 		highlight = { enable = true },
 		indent = { enable = true },
 		parser_install_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "site"),
-		sync_install = true,
 	})
 end
 
