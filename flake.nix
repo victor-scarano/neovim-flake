@@ -104,6 +104,8 @@
 		in {
 			packages.default = derivation;
 
-			homeManagerModules.my-neovim = module;
+			homeModules = {
+				my-neovim = module;
+			};
 		});
-}
+} 
