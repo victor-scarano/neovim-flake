@@ -5,12 +5,24 @@
 
     inputs = {
         nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
         flake-utils.url = "github:numtide/flake-utils";
+
+		/*
+		home-manager = {
+			url = "github:nix-community/home-manager";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
+		*/
     };
 
-    outputs = { nixpkgs, flake-utils, ... }:
+    outputs = { nixpkgs, flake-utils, /* home-manager, */ ... }:
         flake-utils.lib.eachDefaultSystem (system: let
-			pkgs = import nixpkgs { inherit system; };
+			pkgs = import nixpkgs {
+				inherit system;
+				# config.allowUnfree = true;
+			};
+
 			plugins = with pkgs.vimPlugins; [
 				bamboo-nvim
 				catppuccin-nvim
@@ -40,6 +52,7 @@
 				vscode-nvim
 				yazi-nvim
 			];
+
 			runtime = with pkgs; [
 				clang-tools
 				lua-language-server
@@ -52,6 +65,7 @@
 				yazi
 				zls
 			];
+
 			config = pkgs.neovimUtils.makeNeovimConfig {
 				# do these even work?
 				# vimAlias = true;
@@ -59,11 +73,12 @@
 				luaRcContent = builtins.readFile ./init.lua;
 				plugins = plugins;
 			};
+
 			wrapped = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped config;
-		in {
+
 			# is there an easier way to add runtime dependencies to the path?
 			# https://github.com/mrcjkb/haskell-tools.nvim/blob/master/nix/haskell-tooling-overlay.nix
-			packages.default = pkgs.stdenv.mkDerivation {
+			derivation = pkgs.stdenv.mkDerivation {
 				name = "nvim";
 				buildInputs = [ pkgs.makeWrapper ];
 				dontUnpack = true;
@@ -72,5 +87,23 @@
 					makeWrapper ${wrapped}/bin/nvim $out/bin/nvim --prefix PATH : "${pkgs.lib.makeBinPath runtime}"
 				'';
 			};
+
+			module = { config, lib, pkgs, ... }: {
+				options.my-neovim = {
+					enable = lib.mkOption {
+						type = lib.types.bool;
+						default = false;
+						description = "";
+					};
+				};
+
+				config = lib.mkIf config.my-neovim.enable {
+					home.packages = [ derivation ];
+				};
+			};
+		in {
+			packages.default = derivation;
+
+			homeModules.my-neovim = module;
 		});
 }
