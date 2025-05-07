@@ -104,6 +104,6 @@
 		in {
 			packages.default = derivation;
 
-			homeModules.my-neovim = module;
+			homeManagerModules.my-neovim = module;
 		});
 }
