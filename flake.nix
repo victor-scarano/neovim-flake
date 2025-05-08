@@ -88,7 +88,7 @@
 				};
 
 				config = lib.mkIf config.my-neovim.enable {
-					environment.systemPackages = [ self.packages.default ];
+					environment.systemPackages = [ self.packages.${pkgs.system}.default ];
 				};
 			};
 		};
