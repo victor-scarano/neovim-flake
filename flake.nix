@@ -84,11 +84,7 @@
 		}) // {
 			nixosModules.my-neovim = { config, lib, pkgs, ... }: {
 				options.my-neovim = {
-					enable = lib.mkOption {
-						type = lib.types.bool;
-						default = false;
-						description = "";
-					};
+					enable = lib.mkEnableOption "my-neovim";
 				};
 
 				config = lib.mkIf config.my-neovim.enable {
