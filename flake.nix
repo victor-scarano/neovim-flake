@@ -83,7 +83,7 @@
 						pkgs.yazi
 
 						# TODO: these need to be optional
-						(lib.optional config.my-neovim.languages.rust.enable pkgs.rust-analyzer)
+						# (lib.optional config.my-neovim.languages.rust.enable pkgs.rust-analyzer)
 						# clang-tools
 						# lua-language-server
 						# nixd
@@ -92,7 +92,7 @@
 						# taplo
 						# vscode-langservers-extracted
 						# zls
-					];
+					] ++ (lib.optional config.my-neovim.languages.rust.enable pkgs.rust-analyzer);
 				};
 			};
 		};
