@@ -1,5 +1,3 @@
-# TODO: create a home manager module? (vimAlias = true)
-# TODO: set binary as user's defualt editor ($EDITOR)
 {
     description = "My Neovim Flake";
 
@@ -10,11 +8,7 @@
 
     outputs = { self, nixpkgs, flake-utils, ... }:
         flake-utils.lib.eachDefaultSystem (system: let
-			pkgs = import nixpkgs {
-				inherit system;
-				# config.allowUnfree = true;
-			};
-
+			pkgs = import nixpkgs { inherit system; };
 			plugins = with pkgs.vimPlugins; [
 				bamboo-nvim
 				catppuccin-nvim
@@ -28,6 +22,7 @@
 				nvim-lspconfig
 				nvim-tree-lua
 				nvim-treesitter
+				# TODO: enable parsers based on config
 				nvim-treesitter-context
 				nvim-treesitter-parsers.zig
 				nvim-treesitter-parsers.rust
@@ -44,7 +39,6 @@
 				vscode-nvim
 				yazi-nvim
 			];
-
 			derivation = (pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped) (pkgs.neovimUtils.makeNeovimConfig {
 				luaRcContent = builtins.readFile ./init.lua;
 				plugins = plugins;
@@ -56,13 +50,15 @@
 				options.my-neovim = {
 					enable = lib.mkEnableOption "my-neovim";
 					languages = {
-						rust.enable = lib.mkEnableOption "Rust";
-						zig.enable = lib.mkEnableOption "Zig";
-						markdown.enable = lib.mkEnableOption "Markdown";
-						toml.enable = lib.mkEnableOption "TOML";
-						nix.enable = lib.mkEnableOption "Nix";
+						c.enable = lib.mkEnableOption "C";
 						lua.enable = lib.mkEnableOption "Lua";
+						markdown.enable = lib.mkEnableOption "Markdown";
+						nix.enable = lib.mkEnableOption "Nix";
 						python.enable = lib.mkEnableOption "Python";
+						rust.enable = lib.mkEnableOption "Rust";
+						toml.enable = lib.mkEnableOption "TOML";
+						zig.enable = lib.mkEnableOption "Zig";
+
 						/* TODO
 						json.enable = lib.mkEnableOption "JSON";
 						javascript.enable = lib.mkEnableOption "JavaScript";
@@ -70,29 +66,29 @@
 						html.enable = lib.mkEnableOption "HTML";
 						go.enable = lib.mkEnableOption "Go";
 						css.enable = lib.mkEnableOption "CSS";
-						c.enable = lib.mkEnableOption "C";
-						# yaml, xml, wgsl, vimdoc, vim, tmux, sway, sql, ron, regex, latex, javadoc, asm, typst
+						yaml, xml, wgsl, vimdoc, vim, tmux, sway, sql, ron,
+						regex, latex, javadoc, asm, typst
 						*/
 					};
-					# colorschemes.catppuccin.enable = lib.mkEnableOption "Catppuccin";
+					# TODO: colorschemes
+					# TODO: alias
+					# TODO: set defualt editor ($EDITOR)
 				};
 
 				config = lib.mkIf config.my-neovim.enable {
 					home.packages = lib.flatten [
 						self.packages.${pkgs.system}.default
 						pkgs.yazi
-
-						# TODO: these need to be optional
+						pkgs.ripgrep
+						(lib.optional config.my-neovim.languages.c.enable pkgs.clang-tools)
+						(lib.optional config.my-neovim.languages.lua.enable pkgs.lua-language-server)
+						(lib.optional config.my-neovim.languages.markdown.enable pkgs.vscode-langservers-extracted)
+						(lib.optional config.my-neovim.languages.nix.enable pkgs.nixd)
+						(lib.optional config.my-neovim.languages.python.enable pkgs.pyright)
 						(lib.optional config.my-neovim.languages.rust.enable pkgs.rust-analyzer)
-						# clang-tools
-						# lua-language-server
-						# nixd
-						# pyright
-						# ripgrep
-						# taplo
-						# vscode-langservers-extracted
-						# zls
-					]; # ++ (lib.optional config.my-neovim.languages.rust.enable pkgs.rust-analyzer);
+						(lib.optional config.my-neovim.languages.toml.enable pkgs.taplo)
+						(lib.optional config.my-neovim.languages.zig.enable pkgs.zls)
+					];
 				};
 			};
 		};
