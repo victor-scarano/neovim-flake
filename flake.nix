@@ -1,4 +1,4 @@
-# TODO: create a home manager module? (neovim.enable = true) (vimAlias = true)
+# TODO: create a home manager module? (vimAlias = true)
 # TODO: set binary as user's defualt editor ($EDITOR)
 {
     description = "My Neovim Flake";
@@ -45,51 +45,55 @@
 				yazi-nvim
 			];
 
-			runtime = with pkgs; [
-				clang-tools
-				lua-language-server
-				nixd
-				pyright
-				ripgrep
-				rust-analyzer
-				taplo
-				vscode-langservers-extracted
-				yazi
-				zls
-			];
-
-			config = pkgs.neovimUtils.makeNeovimConfig {
-				# do these even work?
-				# vimAlias = true;
-				# wrapRc = false;
+			derivation = (pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped) (pkgs.neovimUtils.makeNeovimConfig {
 				luaRcContent = builtins.readFile ./init.lua;
 				plugins = plugins;
-			};
-
-			wrapped = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped config;
-
-			# is there an easier way to add runtime dependencies to the path?
-			# https://github.com/mrcjkb/haskell-tools.nvim/blob/master/nix/haskell-tooling-overlay.nix
-			derivation = pkgs.stdenv.mkDerivation {
-				name = "nvim";
-				buildInputs = [ pkgs.makeWrapper ];
-				dontUnpack = true;
-				installPhase = ''
-					mkdir -p $out/bin
-					makeWrapper ${wrapped}/bin/nvim $out/bin/nvim --prefix PATH : "${pkgs.lib.makeBinPath runtime}"
-				'';
-			};
+			});
 		in {
 			packages.default = derivation;
 		}) // {
-			nixosModules.my-neovim = { config, lib, pkgs, ... }: {
+			homeModules.my-neovim = { config, lib, pkgs, ... }: {
 				options.my-neovim = {
 					enable = lib.mkEnableOption "my-neovim";
+					languages = {
+						rust.enable = lib.mkEnableOption "Rust";
+						zig.enable = lib.mkEnableOption "Zig";
+						markdown.enable = lib.mkEnableOption "Markdown";
+						toml.enable = lib.mkEnableOption "TOML";
+						nix.enable = lib.mkEnableOption "Nix";
+						lua.enable = lib.mkEnableOption "Lua";
+						python.enable = lib.mkEnableOption "Python";
+						/* TODO
+						json.enable = lib.mkEnableOption "JSON";
+						javascript.enable = lib.mkEnableOption "JavaScript";
+						java.enable = lib.mkEnableOption "Java";
+						html.enable = lib.mkEnableOption "HTML";
+						go.enable = lib.mkEnableOption "Go";
+						css.enable = lib.mkEnableOption "CSS";
+						c.enable = lib.mkEnableOption "C";
+						# yaml, xml, wgsl, vimdoc, vim, tmux, sway, sql, ron, regex, latex, javadoc, asm, typst
+						*/
+					};
+					# colorschemes.catppuccin.enable = lib.mkEnableOption "Catppuccin";
 				};
 
 				config = lib.mkIf config.my-neovim.enable {
-					environment.systemPackages = [ self.packages.${pkgs.system}.default ];
+					home.packages = [
+						self.packages.${pkgs.system}.default
+						pkgs.yazi
+
+						# TODO: these need to be optional
+						(lib.optional config.my-neovim.languages.rust.enable pkgs.rust-analyzer)
+						# clang-tools
+						# lua-language-server
+						# nixd
+						# pyright
+						# ripgrep
+						# taplo
+						# vscode-langservers-extracted
+						# zls
+					];
 				};
 			};
 		};
-} 
+}

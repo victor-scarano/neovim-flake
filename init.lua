@@ -19,26 +19,28 @@ do -- globals
 end
 
 do -- options
+	-- givens
 	vim.opt.autoindent = true
+	vim.opt.laststatus = 3 -- global status
+	vim.opt.number = true
+	vim.opt.shiftwidth = 4
+	vim.opt.showmode = false
+	vim.opt.smartindent = true
+	vim.opt.termguicolors = true
+	vim.opt.tabstop = 4
+	vim.opt.winborder = "single"
+	-- ambiguous
 	vim.opt.colorcolumn = { 80, 120 }
 	vim.opt.expandtab = false
 	vim.opt.foldlevel = 99
 	vim.opt.foldlevelstart = 99
-	vim.opt.laststatus = 3
-	vim.opt.number = true
 	vim.opt.relativenumber = true
-	vim.opt.shiftwidth = 4
-	vim.opt.showmode = false
-	vim.opt.smartindent = true
-	vim.opt.tabstop = 4
-	vim.opt.termguicolors = true
-	vim.opt.wrap = false
-	vim.opt.winborder = "single"
 	vim.opt.scrolloff = 5
+	vim.opt.wrap = false
 end
 
 do -- colorschemes
-	require("bamboo").setup()
+	-- TODO: add module options for colorschemes
 	require("catppuccin").setup({ transparent_background = true })
 	require("vscode").setup()
 
@@ -99,13 +101,10 @@ do -- completions
 end
 
 do -- treesitter
-	-- installs treesitter parsers at runtime.
-	-- is there any way to use nixpkgs instead?
-	vim.opt.runtimepath:prepend(vim.fs.joinpath(vim.fn.stdpath("data"), "site"))
 	require("nvim-treesitter.configs").setup({
 		highlight = { enable = true },
 		indent = { enable = true },
-		parser_install_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "site"),
+		parser_install_dir = "/dev/null"
 	})
 end
 
