@@ -22,22 +22,25 @@
 				nvim-lspconfig
 				nvim-tree-lua
 				nvim-treesitter
-				# TODO: enable parsers based on config
 				nvim-treesitter-context
-				nvim-treesitter-parsers.zig
-				nvim-treesitter-parsers.rust
-				nvim-treesitter-parsers.markdown
-				nvim-treesitter-parsers.markdown_inline
-				nvim-treesitter-parsers.toml
-				nvim-treesitter-parsers.nix
-				nvim-treesitter-parsers.lua
-				nvim-treesitter-parsers.python
-				# other treesitter parsers: yaml, xml, wgsl, vimdoc, vim, tmux, sway, sql, ron, regex, latex, json, javascript, javadoc, java, html, go, css, c, asm, typst
 				nvim-ufo
 				nvim-web-devicons
 				telescope-nvim
 				vscode-nvim
 				yazi-nvim
+
+				nvim-treesitter-parsers.lua
+				nvim-treesitter-parsers.markdown
+				nvim-treesitter-parsers.markdown_inline
+				nvim-treesitter-parsers.nix
+				nvim-treesitter-parsers.python
+				nvim-treesitter-parsers.rust
+				nvim-treesitter-parsers.toml
+				nvim-treesitter-parsers.zig
+				
+				# yaml, xml, wgsl, vimdoc, vim, tmux, sway, sql, ron, regex,
+				# latex, json, javascript, javadoc, java, html, go, css, c, asm,
+				# typst
 			];
 			derivation = (pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped) (pkgs.neovimUtils.makeNeovimConfig {
 				luaRcContent = builtins.readFile ./init.lua;
@@ -58,17 +61,7 @@
 						rust.enable = lib.mkEnableOption "Rust";
 						toml.enable = lib.mkEnableOption "TOML";
 						zig.enable = lib.mkEnableOption "Zig";
-
-						/* TODO
-						json.enable = lib.mkEnableOption "JSON";
-						javascript.enable = lib.mkEnableOption "JavaScript";
-						java.enable = lib.mkEnableOption "Java";
-						html.enable = lib.mkEnableOption "HTML";
-						go.enable = lib.mkEnableOption "Go";
-						css.enable = lib.mkEnableOption "CSS";
-						yaml, xml, wgsl, vimdoc, vim, tmux, sway, sql, ron,
-						regex, latex, javadoc, asm, typst
-						*/
+						# TODO: other languages
 					};
 					# TODO: colorschemes
 					# TODO: alias
