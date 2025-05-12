@@ -48,6 +48,8 @@ do -- colorschemes
 end
 
 do -- lsp
+	-- TODO: figure out how to make this language agnostic
+
 	local servers = {
 		"zls",
 		"taplo",
@@ -209,6 +211,7 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 		end
 	end,
 })
+
 
 do -- keybinds
 	local keybinds = {
