@@ -1,16 +1,14 @@
 -- folding
 	-- TODO: comment folding
-	-- TODO: figure out why i cant fold on the last line of a fold
--- lsp
-	-- TODO: goto tree
-	-- TODO: configure renaming/refactoring symbols
--- https://www.youtube.com/watch?v=xy9sSVx2cfk
+	-- TODO: why i cant fold on the last line of a fold?
+-- TODO: configure renaming/refactoring symbols
+-- file navigation
 	-- TODO: configure yazi
 	-- TODO: hover nvim tree should preview file
 	-- TODO: configure yazi nvim or oil nvim or both
 -- TODO: make use of new completion functionality (https://youtube.com/watch?v=ZiH59zg59kg)
--- TODO: configure which key nvim
--- TODO: maybe configure snake and camel case as words
+-- TODO: configure which key
+-- TODO: configure snake and camel case as words
 -- https://github.com/topics/neovim-colorscheme
 
 do -- globals
@@ -48,7 +46,7 @@ do -- colorschemes
 end
 
 do -- lsp
-	-- TODO: figure out how to make this language agnostic
+	-- TODO: how to make this language agnostic?
 
 	local servers = {
 		"zls",
@@ -73,6 +71,7 @@ do -- lsp
 end
 
 do -- completions
+	-- TODO: ditch this in favor of nvim 0.11 completions
 	local cmp = require("cmp")
 	cmp.setup({
 		window = {
@@ -111,22 +110,6 @@ do -- treesitter
 end
 
 do -- telescope
-	--[[
-	require("telescope").setup({
-		defaults = {
-			border = {
-				preview = { 1, 1, 1, 1 },
-				prompt = { 1, 1, 1, 1 },
-				results = { 1, 1, 1, 1 }
-			},
-			borderchars = {
-				preview = { "─", "│", "─", "│", "┬", "┐", "┘", "┴" },
-				prompt = { " ", " ", "─", "│", "│", " ", "─", "└" },
-				results = { "─", " ", " ", "│", "┌", "─", " ", "│" },
-			},
-		},
-	})
-	--]]
 	require("telescope").setup({
 		defaults = { border = false } -- temp fix (https://github.com/nvim-telescope/telescope.nvim/issues/3436)
 	})
@@ -209,48 +192,30 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 				vim.cmd.nohlsearch()
 			end)
 		end
-	end,
+	end
 })
 
 
 do -- keybinds
+	local function leader_bind(key, action, desc)
+		return {
+			mode = "n",
+			key = "<LEADER>" .. key,
+			action = "<CMD>" .. action .. "<CR>",
+			options = { desc = desc, silent = true }
+		}
+	end
+
 	local keybinds = {
-		{
-			mode = "n", key = "<leader>b", action = "<cmd>Telescope buffers<cr>",
-			options = { desc = "List open buffers using Telescope.", silent = true },
-		},
-		{
-			mode = "n", key = "<leader>f", action = "<cmd>Telescope find_files<cr>",
-			options = { desc = "List files using Telescope.", silent = true },
-		},
-		{
-			mode = "n", key = "<leader>g", action = "<cmd>Telescope live_grep<cr>",
-			options = { desc = "Live grep files using Telescope.", silent = true },
-		},
-		{
-			mode = "n", key = "<leader>q", action = "<CMD>bd<CR>",
-			options = { desc = "Deletes the current buffer.", silent = true },
-		},
-		{
-			mode = "n", key = "<leader>h", action = "<CMD>lua vim.lsp.buf.hover()<CR>",
-			options = { desc = "Displays information about symbol under cursor.", silent = true },
-		},
-		{
-			mode = "n", key = "<leader>d", action = "<CMD>lua vim.lsp.buf.definition()<CR>",
-			options = { desc = "Goes to definition of symbol under cursor.", silent = true },
-		},
-		{
-			mode = "n", key = "<leader>a", action = "<CMD>lua vim.lsp.buf.code_action()<CR>",
-			options = { desc = "Lists possible code actions under cursor.", silent = true },
-		},
-		{
-			mode = "n", key = "<leader><tab>", action = "<CMD>NvimTreeToggle<CR>",
-			options = { desc = "Toggles the directory tree.", silent = true },
-		},
-		{
-			mode = "n", key = "<leader>i", action = "<CMD>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>",
-			options = { desc = "Toggles inlay hints.", silent = true },
-		},
+		leader_bind("b", "Telescope buffers", "List open buffers using Telescope."),
+		leader_bind("f", "Telescope find_files", "List files using Telescope."),
+		leader_bind("g", "Telescope live_grep", "Live grep files using Telescope."),
+		leader_bind("q", "bd", "Deletes the current buffer."),
+		leader_bind("h", "lua vim.lsp.buf.hover()", "Displays information about symbol under cursor."),
+		leader_bind("d", "lua vim.lsp.buf.definition()", "Goes to definition of symbol under cursor."),
+		leader_bind("a", "lua vim.lsp.buf.code_action()", "Lists possible code actions under cursor."),
+		leader_bind("<TAB>", "NvimTreeToggle", "Toggles the directory tree."),
+		leader_bind("i", "lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())", "Toggles inlay hints."),
 	}
 
 	for _, keybind in ipairs(keybinds) do
