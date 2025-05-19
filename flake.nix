@@ -10,24 +10,21 @@
         flake-utils.lib.eachDefaultSystem (system: let
 			pkgs = import nixpkgs { inherit system; };
 			plugins = with pkgs.vimPlugins; [
-				bamboo-nvim
 				catppuccin-nvim
-				cmp-nvim-lsp
 				crates-nvim
 				gitsigns-nvim
-				indent-blankline-nvim # indent-blankline-nvim-lua
+				indent-blankline-nvim
 				lualine-nvim
 				nvim-autopairs
-				nvim-cmp
-				nvim-lspconfig
 				nvim-tree-lua
 				nvim-treesitter
 				nvim-treesitter-context
 				nvim-ufo
 				nvim-web-devicons
 				telescope-nvim
-				vscode-nvim
-				yazi-nvim
+				# yazi-nvim
+				cmp-nvim-lsp
+				nvim-cmp
 
 				nvim-treesitter-parsers.lua
 				nvim-treesitter-parsers.markdown
