@@ -2,7 +2,7 @@
     description = "My Neovim Flake";
 
     inputs = {
-        nixpkgs.url = "github:NixOS/nixpkgs";
+        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
         flake-utils.url = "github:numtide/flake-utils";
     };
 
@@ -46,8 +46,8 @@
 		in {
 			packages.default = derivation;
 		}) // {
-			homeModules.my-neovim = { config, lib, pkgs, ... }: {
-				options.my-neovim = {
+			homeModules.default = { config, lib, pkgs, ... }: {
+				options.neovim = {
 					enable = lib.mkEnableOption "my-neovim";
 					languages = {
 						c.enable = lib.mkEnableOption "C";
