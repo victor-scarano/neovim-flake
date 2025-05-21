@@ -48,7 +48,7 @@
 		}) // {
 			homeModules.neovim = { config, lib, pkgs, ... }: {
 				options.neovim = {
-					enable = lib.mkEnableOption "my-neovim";
+					enable = lib.mkEnableOption "neovim";
 					languages = {
 						c.enable = lib.mkEnableOption "C";
 						lua.enable = lib.mkEnableOption "Lua";
@@ -65,19 +65,19 @@
 					# TODO: set defualt editor ($EDITOR)
 				};
 
-				config = lib.mkIf config.my-neovim.enable {
+				config = lib.mkIf config.neovim.enable {
 					home.packages = lib.flatten [
 						self.packages.${pkgs.system}.default
 						pkgs.yazi
 						pkgs.ripgrep
-						(lib.optional config.my-neovim.languages.c.enable pkgs.clang-tools)
-						(lib.optional config.my-neovim.languages.lua.enable pkgs.lua-language-server)
-						(lib.optional config.my-neovim.languages.markdown.enable pkgs.vscode-langservers-extracted)
-						(lib.optional config.my-neovim.languages.nix.enable pkgs.nixd)
-						(lib.optional config.my-neovim.languages.python.enable pkgs.pyright)
-						(lib.optional config.my-neovim.languages.rust.enable pkgs.rust-analyzer)
-						(lib.optional config.my-neovim.languages.toml.enable pkgs.taplo)
-						(lib.optional config.my-neovim.languages.zig.enable pkgs.zls)
+						(lib.optional config.neovim.languages.c.enable pkgs.clang-tools)
+						(lib.optional config.neovim.languages.lua.enable pkgs.lua-language-server)
+						(lib.optional config.neovim.languages.markdown.enable pkgs.vscode-langservers-extracted)
+						(lib.optional config.neovim.languages.nix.enable pkgs.nixd)
+						(lib.optional config.neovim.languages.python.enable pkgs.pyright)
+						(lib.optional config.neovim.languages.rust.enable pkgs.rust-analyzer)
+						(lib.optional config.neovim.languages.toml.enable pkgs.taplo)
+						(lib.optional config.neovim.languages.zig.enable pkgs.zls)
 					];
 				};
 			};
