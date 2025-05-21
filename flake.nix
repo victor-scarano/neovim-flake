@@ -46,7 +46,7 @@
 		in {
 			packages.default = derivation;
 		}) // {
-			homeModules.neovim = { config, lib, pkgs, ... }: {
+			homeModules.default = { config, lib, pkgs, ... }: {
 				options.neovim = {
 					enable = lib.mkEnableOption "neovim";
 					languages = {
