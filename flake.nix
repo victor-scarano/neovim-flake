@@ -11,11 +11,14 @@
 			pkgs = import nixpkgs { inherit system; };
 			plugins = with pkgs.vimPlugins; [
 				catppuccin-nvim
+				cmp-nvim-lsp
 				crates-nvim
 				gitsigns-nvim
 				indent-blankline-nvim
 				lualine-nvim
 				nvim-autopairs
+				nvim-cmp
+				nvim-lspconfig
 				nvim-tree-lua
 				nvim-treesitter
 				nvim-treesitter-context

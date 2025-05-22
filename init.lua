@@ -54,32 +54,23 @@ do -- lsp
 		"rust_analyzer",
 		"pyright",
 		"nixd",
-		"lua-language-server",
+		"lua_ls",
 		"cssls",
-		"clangd",
+		"clangd"
 	}
 
 	for _, server in ipairs(servers) do
-		vim.lsp.config[server] = { cmd = { server } }
-		vim.lsp.enable(server)
+		require("lspconfig")[server].setup({
+			on_attach = function(client, bufnr)
+				if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+				end
+			end,
+		})
 	end
 end
 
 do -- completions
-	--[[
-	vim.api.nvim_create_autocmd("LspAttach", {
-		callback = function(args)
-			local client = vim.lsp.get_client_by_id(args.data.client_id)
-			if client:supports_method("textDocument/completion") then
-				local chars = {}
-				for c = 32, 126 do table.insert(chars, string.char(c)) end
-				client.server_capabilities.completionProvider.triggerCharacters = chars
-				vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-			end
-		end
-	})
-	--]]
-	
 	local cmp = require("cmp")
 	cmp.setup({
 		window = {
