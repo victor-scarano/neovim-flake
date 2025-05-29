@@ -207,4 +207,11 @@ do -- keybinds
 	for _, keybind in ipairs(keybinds) do
 		vim.keymap.set(keybind.mode, keybind.key, keybind.action, keybind.options)
 	end
+
+	vim.api.nvim_create_user_command('Q', 'q', {})
+	vim.api.nvim_create_user_command('Qa', 'qa', {})
+	vim.api.nvim_create_user_command('W', 'w', {})
+	vim.api.nvim_create_user_command('Wq', 'wq', {})
+	vim.api.nvim_create_user_command('Wa', 'wa', {})
+	vim.api.nvim_create_user_command('Wqa', 'wqa', {})
 end
