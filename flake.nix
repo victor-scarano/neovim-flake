@@ -29,6 +29,8 @@
 				cmp-nvim-lsp
 				nvim-cmp
 
+				nvim-treesitter-parsers.c
+				nvim-treesitter-parsers.cpp
 				nvim-treesitter-parsers.lua
 				nvim-treesitter-parsers.markdown
 				nvim-treesitter-parsers.markdown_inline
