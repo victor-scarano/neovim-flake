@@ -4,9 +4,8 @@
     -- TODO: auto fold all folds by default
 -- TODO: configure renaming/refactoring symbols
 -- file navigation
-	-- TODO: configure yazi
+	-- TODO: yazi?
 	-- TODO: hover nvim tree should preview file
-	-- TODO: configure yazi nvim or oil nvim or both
 -- TODO: make use of new completion functionality (https://youtube.com/watch?v=ZiH59zg59kg)
 -- TODO: configure which key
 -- TODO: configure snake and camel case as words

@@ -25,7 +25,7 @@
 				nvim-ufo
 				nvim-web-devicons
 				telescope-nvim
-				# yazi-nvim
+				# yazi-nvim?
 				cmp-nvim-lsp
 				nvim-cmp
 
@@ -73,7 +73,6 @@
 				config = lib.mkIf config.neovim.enable {
 					home.packages = lib.flatten [
 						self.packages.${pkgs.system}.default
-						pkgs.yazi
 						pkgs.ripgrep
 						(lib.optional config.neovim.languages.c.enable pkgs.clang-tools)
 						(lib.optional config.neovim.languages.lua.enable pkgs.lua-language-server)
