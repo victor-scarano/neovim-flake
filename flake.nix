@@ -53,7 +53,8 @@
 		}) // {
 			homeModules.default = { config, lib, pkgs, ... }: {
 				options.neovim = {
-					enable = lib.mkEnableOption "neovim";
+					enable = lib.mkEnableOption "Neovim";
+					defaultEditor = lib.mkEnableOption "Neovim as the default editor";
 					languages = {
 						c.enable = lib.mkEnableOption "C";
 						lua.enable = lib.mkEnableOption "Lua";
@@ -67,7 +68,6 @@
 					};
 					# TODO: colorschemes
 					# TODO: alias
-					# TODO: set defualt editor ($EDITOR)
 				};
 
 				config = lib.mkIf config.neovim.enable {
@@ -83,6 +83,11 @@
 						(lib.optional config.neovim.languages.toml.enable pkgs.taplo)
 						(lib.optional config.neovim.languages.zig.enable pkgs.zls)
 					];
+
+					home.sessionVariables = lib.mkIf config.neovim.defaultEditor {
+						EDITOR = "${self.packages.${pkgs.system}.default}/bin/nvim";
+						VISUAL = "${self.packages.${pkgs.system}.default}/bin/nvim";
+					};
 				};
 			};
 		};
