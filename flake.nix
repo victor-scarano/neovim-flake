@@ -2,7 +2,9 @@
     description = "My Neovim Flake";
 
     inputs = {
-        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+	# broken:  66f5935fc360e54d281de12106d20ca89004bf30
+	# working:  084a12f3f3a88e8aab8a9172cfd9c52e787fd57c
+        nixpkgs.url = "github:NixOS/nixpkgs/084a12f3f3a88e8aab8a9172cfd9c52e787fd57c";
         flake-utils.url = "github:numtide/flake-utils";
     };
 
