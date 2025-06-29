@@ -4,7 +4,7 @@
     -- TODO: auto fold all folds by default
 -- TODO: configure renaming/refactoring symbols
 -- file navigation
-	-- TODO: yazi?
+	-- TODO: oil
 	-- TODO: hover nvim tree should preview file
 -- TODO: make use of new completion functionality (https://youtube.com/watch?v=ZiH59zg59kg)
 -- TODO: configure which key
@@ -182,10 +182,13 @@ vim.api.nvim_create_autocmd("LspNotify", {
 
 do -- keybinds
 	local function leader_bind(key, action, desc)
+		if type(action) == "string" then
+			action = "<CMD>" .. action .. "<CR>"
+		end
 		return {
 			mode = "n",
 			key = "<LEADER>" .. key,
-			action = "<CMD>" .. action .. "<CR>",
+			action = action,
 			options = { desc = desc, silent = true }
 		}
 	end
@@ -196,11 +199,19 @@ do -- keybinds
 		leader_bind("f", "Telescope find_files", "List files using Telescope."),
 		leader_bind("g", "Telescope live_grep", "Live grep files using Telescope."),
 		leader_bind("q", "bd", "Deletes the current buffer."),
-		leader_bind("h", "lua vim.lsp.buf.hover()", "Displays information about symbol under cursor."),
-		leader_bind("d", "lua vim.lsp.buf.definition()", "Goes to definition of symbol under cursor."),
-		leader_bind("a", "lua vim.lsp.buf.code_action()", "Lists possible code actions under cursor."),
+		leader_bind("h", vim.lsp.buf.hover, "Displays information about symbol under cursor."),
+		leader_bind("d", vim.lsp.buf.definition, "Goes to definition of symbol under cursor."),
+		leader_bind("a", vim.lsp.buf.code_action, "Lists possible code actions under cursor."),
 		leader_bind("<TAB>", "NvimTreeToggle", "Toggles the directory tree."),
-		leader_bind("i", "lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())", "Toggles inlay hints."),
+		leader_bind("i", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, "Toggles inlay hints."),
+
+		leader_bind("d", vim.diagnostic.open_float, "Show diagnostics."),
+		-- TODO
+		-- Go to next diagnostic
+		-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
+		-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+		-- Open diagnostics for current line
+		-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Diagnostics to loclist" })
 	}
 
 	for _, keybind in ipairs(keybinds) do
