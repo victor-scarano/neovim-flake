@@ -205,8 +205,8 @@ do -- keybinds
 		leader_bind("<TAB>", "NvimTreeToggle", "Toggles the directory tree."),
 		leader_bind("i", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, "Toggles inlay hints."),
 
-		leader_bind("d", vim.diagnostic.open_float, "Show diagnostics."),
 		-- TODO
+		leader_bind("e", vim.diagnostic.open_float, "Show diagnostics."),
 		-- Go to next diagnostic
 		-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
 		-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Next diagnostic" })
@@ -218,10 +218,10 @@ do -- keybinds
 		vim.keymap.set(keybind.mode, keybind.key, keybind.action, keybind.options)
 	end
 
-	vim.api.nvim_create_user_command('Q', 'q', {})
-	vim.api.nvim_create_user_command('Qa', 'qa', {})
-	vim.api.nvim_create_user_command('W', 'w', {})
-	vim.api.nvim_create_user_command('Wq', 'wq', {})
-	vim.api.nvim_create_user_command('Wa', 'wa', {})
-	vim.api.nvim_create_user_command('Wqa', 'wqa', {})
+	vim.api.nvim_create_user_command("Q", "q", {})
+	vim.api.nvim_create_user_command("Qa", "qa", {})
+	vim.api.nvim_create_user_command("W", "w", {})
+	vim.api.nvim_create_user_command("Wq", "wq", {})
+	vim.api.nvim_create_user_command("Wa", "wa", {})
+	vim.api.nvim_create_user_command("Wqa", "wqa", {})
 end
