@@ -2,9 +2,7 @@
     description = "My Neovim Flake";
 
     inputs = {
-	# broken:  66f5935fc360e54d281de12106d20ca89004bf30
-	# working:  084a12f3f3a88e8aab8a9172cfd9c52e787fd57c
-        nixpkgs.url = "github:NixOS/nixpkgs/084a12f3f3a88e8aab8a9172cfd9c52e787fd57c";
+        nixpkgs.url = "github:NixOS/nixpkgs";
         flake-utils.url = "github:numtide/flake-utils";
     };
 
@@ -27,7 +25,6 @@
 				nvim-ufo
 				nvim-web-devicons
 				telescope-nvim
-				# yazi-nvim?
 				cmp-nvim-lsp
 				nvim-cmp
 
@@ -47,7 +44,7 @@
 				# typst
 			];
 			derivation = (pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped) (pkgs.neovimUtils.makeNeovimConfig {
-				luaRcContent = builtins.readFile ./init.lua;
+				customLuaRC = builtins.readFile ./init.lua;
 				plugins = plugins;
 			});
 		in {
@@ -69,7 +66,6 @@
 						# TODO: other languages
 					};
 					# TODO: colorschemes
-					# TODO: alias
 				};
 
 				config = lib.mkIf config.neovim.enable {
